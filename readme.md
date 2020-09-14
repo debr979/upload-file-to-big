@@ -1,3 +1,8 @@
+安裝NPM：
+https://www.npmjs.com/get-npm
+(安裝Nodejs and npm)
+
+
 1、先到/config/setting.json
    輸入S3的設定
 
