@@ -50,7 +50,7 @@ func fileUpload(c *gin.Context) {
     if err:=  s3.AddFileToS3(file,"/" + file.Filename);err != nil{
         c.JSON(400, gin.H{
             "code": 400,
-            "msg":  "上傳檔案發生錯誤",
+            "msg":  "缺少S3設定檔",
         })
         return
     }
