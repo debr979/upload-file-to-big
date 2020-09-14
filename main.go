@@ -1,9 +1,9 @@
 package main
 
 import (
-	"log"
-
-	"github.com/gin-gonic/gin"
+    "github.com/gin-gonic/gin"
+    "log"
+    "upload-file-for-big/lib"
 )
 
 func main() {
@@ -45,14 +45,15 @@ func fileUpload(c *gin.Context) {
 		return
 	}
 
-	if err := c.SaveUploadedFile(file, "./"+file.Filename); err != nil {
-		c.JSON(400, gin.H{
-			"code": 400,
-			"msg":  "儲存檔案發生錯誤",
-		})
-		return
-	}
-
+	s3 := lib.S3Main
+	s3.SetS3Setting()
+    if err:=  s3.AddFileToS3(file,"/" + file.Filename);err != nil{
+        c.JSON(400, gin.H{
+            "code": 400,
+            "msg":  "上傳檔案發生錯誤",
+        })
+        return
+    }
 	c.JSON(200, gin.H{
 		"code": 200,
 		"msg":  fileName + " 上傳成功",
