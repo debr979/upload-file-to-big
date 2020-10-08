@@ -6,6 +6,9 @@ const View = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [result, setResult] = useState("");
   const [isEnable, setIsEnable] = useState(false);
+  const [URL, setURL] = useState("");
+  const [uploadID, setUploadID] = useState("");
+
   const fileUpload = () => {
     setIsProcessing(true);
     setIsEnable(true);
@@ -21,6 +24,8 @@ const View = () => {
         setResult(data.msg);
         setIsEnable(false);
         setIsProcessing(false);
+        setURL(data.info.url);
+        setUploadID(data.info.upload_id);
         return;
       }
     };
@@ -68,9 +73,16 @@ const View = () => {
       </div>
       <p>
         {isProcessing ? "上傳中..." : false}
-        {result !== "" ? result : ""}
       </p>
-      <div className={""}> </div>
+      {result !== ""
+        ? <div className={"card"}>
+          <div class="card-header">上傳結果</div>
+          <div class="card-body">
+            <p>
+            </p>
+          </div>
+        </div>
+        : ""}
     </div>
   );
 };
