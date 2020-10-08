@@ -6,10 +6,8 @@ DEV:= $(GO) run
 
 NPM= npm
 
-init:
-	mv ./config/setting.json.sample ./config/setting.json
 
-install: init;
+install:
 	$(NPM) install --prefix ./web
 
 run: install;

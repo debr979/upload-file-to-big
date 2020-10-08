@@ -76,10 +76,9 @@ const View = () => {
       </p>
       {result !== ""
         ? <div className={"card"}>
-          <div class="card-header">上傳結果</div>
-          <div class="card-body">
-            <p>
-            </p>
+          <div className="card-header">上傳結果</div>
+          <div className="card-body">
+            <a href={URL}>{URL}</a>
           </div>
         </div>
         : ""}
