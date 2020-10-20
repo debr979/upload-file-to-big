@@ -15,9 +15,9 @@ https://www.npmjs.com/get-npm  (安裝Nodejs and npm)
    輸入指令  
    npm install  
    等他執行完成  
-   再輸入
-   npm run build
-   等他執行完成
+   再輸入  
+   npm run build  
+   等他執行完成  
    再cd ..(回上層)  
    go run main.go  
    等他執行完成。  
