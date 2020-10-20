@@ -14,7 +14,7 @@ run: install;
 	$(NPM) run build --prefix ./web
 
 build: run;
-	$(BUILD) -o run-this main.go
+	$(BUILD) -o main main.go
 
 dev: run;
 	$(DEV) main.go
