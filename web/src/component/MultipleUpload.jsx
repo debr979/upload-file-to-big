@@ -7,16 +7,16 @@ const View = () => {
     const [result, setResult] = useState("");
     const [isEnable, setIsEnable] = useState(true);
     const [URL, setURL] = useState([]);
-    const [uploadID, setUploadID] = useState("");
     const [files, setFiles] = useState([]);
     const [count, setCount] = useState(0);
+    const [fileLength, setFileLength] = useState(0);
 
     const fileUpload = () => {
         setIsProcessing(true);
         setIsEnable(true);
         let xhr = new XMLHttpRequest();
 
-        xhr.open("POST", "/uploadPool", true);
+        xhr.open("POST", "/uploadPool");
         xhr.onload = () => {
             if (xhr.readyState === 4) {
                 let data = JSON.parse(xhr.responseText);
@@ -30,42 +30,31 @@ const View = () => {
         xhr.send(null);
     };
 
-    const CheckFile = e => {
-        let xhr = new XMLHttpRequest();
-        xhr.open("GET", "/checkFile", true);
-        xhr.onload = () => {
-            if (xhr.readyState === 4) {
-                let data = JSON.parse(xhr.responseText);
-                setIsEnable(false);
-                setFiles(data.info.file_name);
-            }
-        };
-        xhr.send(null);
-    };
-
 
     return (
         <div className={"container"}>
-            <h3>二、S3 資料夾多檔上傳({files.length})</h3>
+            <h3>二、S3 資料夾多檔上傳({fileLength})</h3>
             <div className="row">
                 <div className="col-6">
-                    {
-                        files.map((item, idx) => {
-                            return (
-                                <div className="col-12" key={idx}>{idx + 1 + "、" + item}</div>
-                            )
+                    <form>
+                        <input
+                            type="file"
+                            value={"總共" + fileLength + "筆"}
+                            onChange={(e) => {
+                                let preUpload = e.target.files;
+                              //  console.log(preUpload[1].name)
+                                setFileLength(preUpload.length);
 
-                        })
-                    }
+
+                            }} multiple
+                        />
+                    </form>
                 </div>
                 <div className="col-3">
                     <input
                         className="btn btn-warning"
                         value={"檢查"}
                         type="button"
-                        onClick={
-                            CheckFile
-                        }
                     />
                     <input
                         className="btn btn-primary"
