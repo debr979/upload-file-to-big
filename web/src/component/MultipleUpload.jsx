@@ -10,12 +10,16 @@ const View = () => {
     const [files, setFiles] = useState([]);
     const [count, setCount] = useState(0);
     const [fileLength, setFileLength] = useState(0);
+    const [uploadSetting, setUploadSetting] = useState({});
+    const [accessKeyID, setAccessKeyId] = useState("");
+    const [secretKey, setSecretKey] = useState("");
+    const [region, setRegion] = useState("");
+    const [bucket, setBucket] = useState("");
 
     const fileUpload = () => {
         setIsProcessing(true);
         setIsEnable(true);
         let xhr = new XMLHttpRequest();
-
         xhr.open("POST", "/uploadPool");
         xhr.onload = () => {
             if (xhr.readyState === 4) {
@@ -30,22 +34,39 @@ const View = () => {
         xhr.send(null);
     };
 
+    const handleChangeAccessKeyID = e => {
+        setAccessKeyId(e.target.value);
+    };
+
+    const handleChangeSecretKey = e => {
+        setSecretKey(e.target.value);
+    };
+
+    const handleChangeRegion = e => {
+        setRegion(e.target.value);
+    };
+
+    const handleChangeBucket = e => {
+        setBucket(e.target.value);
+    };
+
 
     return (
         <div className={"container"}>
             <h3>二、S3 資料夾多檔上傳({fileLength})</h3>
             <div className="row">
+
                 <div className="col-6">
                     <form>
                         <input
                             type="file"
-                            value={"總共" + fileLength + "筆"}
+                            value={fileLength}
                             onChange={(e) => {
                                 let preUpload = e.target.files;
-                              //  console.log(preUpload[1].name)
                                 setFileLength(preUpload.length);
-
-
+                                for(let i =0;i<= preUpload.length;i++){
+                                    console.log(preUpload[i].name)
+                                }
                             }} multiple
                         />
                     </form>

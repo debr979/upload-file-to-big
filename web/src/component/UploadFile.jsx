@@ -26,7 +26,7 @@ const View = () => {
                 setIsProcessing(false);
                 setURL(data.info.url);
                 setUploadID(data.info.upload_id);
-                return;
+
             }
         };
         xhr.send(formData);

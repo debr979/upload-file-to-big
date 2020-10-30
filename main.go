@@ -162,4 +162,5 @@ func multifileUpload(c *gin.Context) {
 		log.Println(file.Filename)
 	}
 
+	
 }
