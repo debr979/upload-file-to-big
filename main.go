@@ -26,7 +26,7 @@ func main() {
 
 	r.POST("/fileToS3", fileUpload)
 	r.POST("/uploadPool", uploadPoolFile)
-	r.POST("/multiFile", multifileUpload)
+	r.POST("/multiFile", multiFileUpload)
 	if err := r.Run(":8082"); err != nil {
 		log.Println(err)
 	}
@@ -144,7 +144,7 @@ func fileUpload(c *gin.Context) {
 	return
 }
 
-func multifileUpload(c *gin.Context) {
+func multiFileUpload(c *gin.Context) {
 	multiFile, err := c.MultipartForm()
 	if err != nil {
 		c.JSON(400, gin.H{

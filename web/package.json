@@ -13,6 +13,8 @@
   },
   "devDependencies": {
     "vite": "^1.0.0-rc.1",
-    "vite-plugin-react": "^3.0.0"
+    "vite-plugin-react": "^3.0.0",
+    "bootstrap": "^4.5.2",
+    "react-dom": "^16.13.1"
   }
 }

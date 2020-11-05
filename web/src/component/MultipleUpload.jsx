@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 
 const View = () => {
-    const [fileName, setFileName] = useState("");
+    const [fileNames, setFileNames] = useState([]);
     const [file, setFile] = useState({});
     const [isProcessing, setIsProcessing] = useState(false);
     const [result, setResult] = useState("");
     const [isEnable, setIsEnable] = useState(true);
     const [URL, setURL] = useState([]);
-    const [files, setFiles] = useState([]);
+    const [files, setFiles] = useState({});
     const [count, setCount] = useState(0);
     const [fileLength, setFileLength] = useState(0);
     const [uploadSetting, setUploadSetting] = useState({});
@@ -15,12 +15,25 @@ const View = () => {
     const [secretKey, setSecretKey] = useState("");
     const [region, setRegion] = useState("");
     const [bucket, setBucket] = useState("");
+    const [isLock, setIsLock] = useState(false);
 
     const fileUpload = () => {
+        //上傳檔案
+       
+        let formData = new FormData();
+        formData.append('access_key_id', accessKeyID);
+        formData.append('secret_key', secretKey);
+        formData.append('region', region);
+        formData.append('bucket', bucket);
+        for(let i=0;i<= fileLength;i++){
+             formData.append('files', files[0],files[i].name);
+        }
+        
         setIsProcessing(true);
         setIsEnable(true);
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", "/uploadPool");
+        xhr.open("POST", "/multiFile");
+        xhr.withCredentials = true;
         xhr.onload = () => {
             if (xhr.readyState === 4) {
                 let data = JSON.parse(xhr.responseText);
@@ -31,7 +44,7 @@ const View = () => {
                 setCount(data.info.count);
             }
         };
-        xhr.send(null);
+        xhr.send(formData);
     };
 
     const handleChangeAccessKeyID = e => {
@@ -50,32 +63,52 @@ const View = () => {
         setBucket(e.target.value);
     };
 
+    const lockSetting = e => {
+        if (e.target.value === '上鎖') {
+            setIsLock(true);
+            setIsEnable(false);
+        } else {
+            setIsLock(false);
+        }
+    };
 
     return (
         <div className={"container"}>
             <h3>二、S3 資料夾多檔上傳({fileLength})</h3>
-            <div className="row">
-
-                <div className="col-6">
-                    <form>
-                        <input
-                            type="file"
-                            value={fileLength}
-                            onChange={(e) => {
-                                let preUpload = e.target.files;
-                                setFileLength(preUpload.length);
-                                for(let i =0;i<= preUpload.length;i++){
-                                    console.log(preUpload[i].name)
-                                }
-                            }} multiple
-                        />
-                    </form>
+            <div className="form-group row">
+                <label className="col-2 col-form-label">AccessKeyID</label>
+                <input className="col-4 form-control" placeholder="AccessKeyID" onChange={handleChangeAccessKeyID}
+                       disabled={isLock}/>
+                <label className="col-2 col-form-label">SecretKey</label>
+                <input className="col-4 form-control" placeholder="SecretKey" onChange={handleChangeSecretKey}
+                       disabled={isLock}/>
+            </div>
+            <div className="form-group row">
+                <label className="col-2 col-form-label">Region</label>
+                <input className="col-4 form-control" placeholder="Region" onChange={handleChangeRegion}
+                       disabled={isLock}/>
+                <label className="col-2 col-form-label">Bucket</label>
+                <input className="col-4 form-control" placeholder="Bucket" onChange={handleChangeBucket}
+                       disabled={isLock}/>
+            </div>
+            <div className="form-group row">
+                <div className="col-6 form-group">
+                    <input
+                        type="file"
+                        onChange={(e) => {
+                            let preUpload = e.target.files;
+                            setFileLength(preUpload.length);
+                            console.log(preUpload)
+                            setFiles(preUpload);
+                        }} multiple
+                    />
                 </div>
                 <div className="col-3">
                     <input
                         className="btn btn-warning"
-                        value={"檢查"}
+                        value={isLock ? '開鎖' : '上鎖'}
                         type="button"
+                        onClick={lockSetting}
                     />
                     <input
                         className="btn btn-primary"
