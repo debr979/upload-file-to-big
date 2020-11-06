@@ -44,8 +44,9 @@ const View = () => {
                 setResult(data.msg);
                 setIsEnable(false);
                 setIsProcessing(false);
-                setURL(data.info.urls);
-                setCount(data.info.count);
+                setURL(data.info);
+                let uploadLength = data.info.length;
+                setCount(uploadLength);
             }
             
         };
@@ -135,7 +136,7 @@ const View = () => {
                         <h3>上傳筆數：{count}</h3>
                         {
                             URL.map((item, idx) => {
-                                return (<a key={idx} href={item}>item</a>)
+                                return (<p>{idx+1}、<a key={idx} href={item.url}>{item.url}</a></p>)
                             })
                         }
                     </div>
