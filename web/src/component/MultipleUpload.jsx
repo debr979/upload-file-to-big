@@ -21,13 +21,17 @@ const View = () => {
         //上傳檔案
        
         let formData = new FormData();
-        formData.append('access_key_id', accessKeyID);
-        formData.append('secret_key', secretKey);
-        formData.append('region', region);
-        formData.append('bucket', bucket);
+        let settingData = {
+            access_key_id:accessKeyID,
+            secret_key:secretKey,
+            region:region,
+            bucket:bucket,
+        };
+        formData.append('setting', JSON.stringify(settingData));
         for(let i=0;i<= fileLength;i++){
-             formData.append('files', files[0],files[i].name);
+         formData.append('files', files[i]);
         }
+ 
         
         setIsProcessing(true);
         setIsEnable(true);
@@ -43,6 +47,7 @@ const View = () => {
                 setURL(data.info.urls);
                 setCount(data.info.count);
             }
+            
         };
         xhr.send(formData);
     };

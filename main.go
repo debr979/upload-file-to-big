@@ -145,7 +145,12 @@ func fileUpload(c *gin.Context) {
 }
 
 func multiFileUpload(c *gin.Context) {
-	multiFile, err := c.MultipartForm()
+
+    type setting struct{
+        
+    }
+
+	multiForm, err := c.MultipartForm()
 	if err != nil {
 		c.JSON(400, gin.H{
 			"code": 400,
@@ -155,12 +160,14 @@ func multiFileUpload(c *gin.Context) {
 		return
 	}
 
-    s3 := lib.S3Main
-	s3.SetS3Setting()
-	files := multiFile.File["files"]
+	settingData := multiForm.Value["setting"][0]
+
+
+	files := multiForm.File["files"]
 	for _, file := range files {
 		log.Println(file.Filename)
 	}
+
 
 	
 }
